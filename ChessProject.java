@@ -148,21 +148,85 @@ private Stack getWhitePawnSquares(int x, int y, String piece){
   Square startingSquare = new Square(x, y, piece);
   Move validM, validM2, validM3, validM4;
 
-
-   // for loop allows for the pawn to move one square
-   for(int i = 1; i < 2; i++) {
-    int tmpx = x;
-    int tmpy = y+i;
-    // A check to ensure our piece is not off the board (7 is the amount of squares on the y coordinates)
-    if(!(tmpy > 7)) {
-      Square tmp = new Square(tmpx, tmpy, piece);
-      validM = new Move(startingSquare, tmp);
-      if (!piecePresent(((tmp.getXC() * 75) + 20), (((tmp.getYC() * 75) + 20)))) {
-        moves.push(validM);
+      // Allows for the pawns to move 2 squares on your first move
+      for(int i = 1; i < 3; i++) {
+        int tmpx = x;
+        int tmpy = y+i;
+        // A check to ensure our piece is not off the board (7 is the amount of squares on the y coordinates)
+        if(!(tmpy > 7)) {
+            if(startY == 0){
+              Square tmp = new Square(tmpx, tmpy, piece);
+              validM = new Move(startingSquare, tmp);
+              if (!piecePresent(((tmp.getXC()*75)+20), (((tmp.getYC()*75)+20)))) {
+                moves.push(validM);
+            }
+          
+          else{
+            if(checkWhiteOponent(((tmp.getXC()*75)+20), ((tmp.getYC()*75)+20))){
+              moves.push(validM);
+              break;
+            }
+            else{
+              break;
+            }
+          }
+        }
       }
     }
-}
 
+      // for loop allows for the pawn to move one square
+      for(int j = 1; j < 2; j++) {
+        int tmpx = x;
+        int tmpy = y+j;
+        // A check to ensure our piece is not off the board (7 is the amount of squares on the y coordinates)
+        if(!(tmpy > 7)) {
+          Square tmp2 = new Square(tmpx, tmpy, piece);
+          validM = new Move(startingSquare, tmp2);
+          if (!piecePresent(((tmp2.getXC() * 75) + 20), (((tmp2.getYC() * 75) + 20)))) {
+            moves.push(validM);
+          }
+          else{
+              if(checkWhiteOponent(((tmp2.getXC()*75)+20), ((tmp2.getYC()*75)+20))){
+                moves.push(validM);
+                break;
+              }
+              else{
+                break;
+              }
+            }
+          }
+        }
+
+        for(int k=1;k < 2;k++){
+          int tmpx = x+k;
+          int tmpy = y+k;
+          if(!(tmpx > 7 || tmpx < 0 || tmpy > 7 || tmpy < 0)){
+            Square tmp = new Square(tmpx, tmpy, piece);
+            validM = new Move(startingSquare, tmp);
+            if(piecePresent(((tmp.getXC()*75)+20), (((tmp.getYC()*75)+20)))){
+              if(piece.contains("White")){
+                if(checkWhiteOponent(((tmp.getXC()*75)+20), ((tmp.getYC()*75)+20))){
+                  moves.push(validM);
+                }
+              }
+            }
+           }
+         }
+        for(int m=1;m < 2;m++){
+          int tmpx = x-m;
+          int tmpy = y+m;
+          if(!(tmpx > 7 || tmpx < 0 || tmpy > 7 || tmpy < 0)){
+            Square tmp = new Square(tmpx, tmpy, piece);
+            validM = new Move(startingSquare, tmp);
+            if(piecePresent(((tmp.getXC()*75)+20), (((tmp.getYC()*75)+20)))){
+              if(piece.contains("White")){
+                if(checkWhiteOponent(((tmp.getXC()*75)+20), ((tmp.getYC()*75)+20))){
+                  moves.push(validM);
+                  }
+                }
+              }
+            }
+          }
 
   return moves;
 }
